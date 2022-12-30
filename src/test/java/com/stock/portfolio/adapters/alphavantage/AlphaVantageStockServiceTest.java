@@ -9,8 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class AlphaVantageStockServiceTest {
@@ -19,17 +18,17 @@ class AlphaVantageStockServiceTest {
     StockService stockService;
 
     @Test
-    public void whenSearchForTescoShouldReturnThreeMatches() {
+    void whenSearchForTescoShouldReturnThreeMatches() {
         List<Stock> stocks = stockService.findStocksByTicket("tesco");
 
-        assertEquals(3, stocks.size());
+        assertThat(stocks).hasSize(3);
     }
 
 
     @Test
-    public void whenQuoteForIBMPriceShouldReturnNumber() {
+    void whenQuoteForIBMPriceShouldReturnNumber() {
         BigDecimal price = stockService.getPriceByTicket("IBM");
 
-        assertNotNull(price);
+        assertThat(price).isNotNull();
     }
 }
