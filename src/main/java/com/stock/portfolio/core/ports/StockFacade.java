@@ -40,6 +40,6 @@ public class StockFacade implements AddStockEntry, SearchForStockEntry {
 
     @Override
     public List<StockEntry> findStockEntry(String ticket) {
-       return portfolioDatabase.searchForStockEntry(ticket);
+       return portfolioDatabase.findStockEntry(ticket);
     }
 }

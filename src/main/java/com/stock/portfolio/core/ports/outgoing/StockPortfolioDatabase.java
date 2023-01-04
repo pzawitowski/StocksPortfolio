@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface StockPortfolioDatabase {
     Long addStockEntry(StockEntry entry);
-    List<StockEntry> searchForStockEntry(String ticket);
+    List<StockEntry> findStockEntry(String ticket);
     Broker getBroker(Long brokerId);
 }

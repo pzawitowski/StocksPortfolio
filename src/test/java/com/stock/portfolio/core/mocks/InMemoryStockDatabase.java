@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class InMemoryStockDatabase implements StockPortfolioDatabase {
     private long id = 0;
 
-    private List<StockEntry> stockEntries = new ArrayList<StockEntry>();
+    private List<StockEntry> stockEntries = new ArrayList<>();
     private List<Broker> brokers = new ArrayList<>();
 
     public void cleanStockEntries() {
@@ -34,7 +34,7 @@ public class InMemoryStockDatabase implements StockPortfolioDatabase {
     }
 
     @Override
-    public List<StockEntry> searchForStockEntry(String ticket) {
+    public List<StockEntry> findStockEntry(String ticket) {
         return stockEntries.stream()
                 .filter(e -> e.getTicket().startsWith(ticket))
                 .collect(Collectors.toList());

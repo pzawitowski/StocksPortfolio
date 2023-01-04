@@ -1,16 +1,15 @@
 package com.stock.portfolio.core.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 public class StockEntry {
+
     @Id
+    @GeneratedValue
     private Long id;
     private LocalDate addedDate;
     private String ticket;
