@@ -10,4 +10,6 @@ public interface StockService {
     List<Stock> findStocksByTicket(String ticket);
 
     BigDecimal getPriceByTicket(String ticket);
+
+    BigDecimal getExchangeRate(String fromCurrency, String toCurrency);
 }

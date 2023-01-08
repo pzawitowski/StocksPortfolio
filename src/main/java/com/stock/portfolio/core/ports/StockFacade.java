@@ -1,7 +1,9 @@
 package com.stock.portfolio.core.ports;
 
-import com.stock.portfolio.core.model.AddStockEntryCommand;
+import com.stock.portfolio.adapters.repository.entity.StockEntryEntity;
+import com.stock.portfolio.core.model.Broker;
 import com.stock.portfolio.core.model.StockEntry;
+import com.stock.portfolio.core.ports.incoming.AddBroker;
 import com.stock.portfolio.core.ports.incoming.AddStockEntry;
 import com.stock.portfolio.core.ports.incoming.SearchForStockEntry;
 import com.stock.portfolio.core.ports.outgoing.StockPortfolioDatabase;
@@ -9,7 +11,7 @@ import com.stock.portfolio.core.ports.outgoing.StockService;
 
 import java.util.List;
 
-public class StockFacade implements AddStockEntry, SearchForStockEntry {
+public class StockFacade implements AddStockEntry, SearchForStockEntry, AddBroker {
 
     private StockPortfolioDatabase portfolioDatabase;
     private StockService stockService;
@@ -20,26 +22,31 @@ public class StockFacade implements AddStockEntry, SearchForStockEntry {
     }
 
     @Override
-    public Long addStockEntry(AddStockEntryCommand stockEntryCommand) {
-        StockEntry stockEntry = mapToStockEntry(stockEntryCommand);
-        stockEntry.setCurrentPrice(stockService.getPriceByTicket(stockEntryCommand.getTicket()));
+    public Long addStockEntry(StockEntry stockEntry) {
+        StockEntryEntity stockEntryEntity = mapToStockEntryEntity(stockEntry);
+        stockEntryEntity.setCurrentPrice(stockService.getPriceByTicket(stockEntryEntity.getTicket()));
 
-        return portfolioDatabase.addStockEntry(stockEntry);
+        return portfolioDatabase.addStockEntry(stockEntryEntity);
     }
 
-    private StockEntry mapToStockEntry(AddStockEntryCommand stockEntryCommand) {
-        StockEntry stockEntry = new StockEntry();
-        stockEntry.setAddedDate(stockEntryCommand.getDateAdded());
-        stockEntry.setPriceWhenAdded(stockEntryCommand.getPricePerShare());
-        stockEntry.setQuantity(stockEntryCommand.getQuantity());
-        stockEntry.setTicket(stockEntryCommand.getTicket());
-        stockEntry.setCurrentPrice(stockService.getPriceByTicket(stockEntryCommand.getTicket()));
+    private StockEntryEntity mapToStockEntryEntity(StockEntry stockEntry) {
+        StockEntryEntity stockEntryEntity = new StockEntryEntity();
+        stockEntryEntity.setAddedDate(stockEntry.getPurchaseDate());
+        stockEntryEntity.setPurchasePrice(stockEntry.getPricePerShare());
+        stockEntryEntity.setQuantity(stockEntry.getQuantity());
+        stockEntryEntity.setTicket(stockEntry.getTicket());
+        stockEntryEntity.setCurrentPrice(stockService.getPriceByTicket(stockEntry.getTicket()));
 
-        return stockEntry;
+        return stockEntryEntity;
     }
 
     @Override
-    public List<StockEntry> findStockEntry(String ticket) {
+    public List<StockEntryEntity> findStockEntry(String ticket) {
        return portfolioDatabase.findStockEntry(ticket);
+    }
+
+    @Override
+    public Long addBroker(Broker addBrokerCommand) {
+        return null;
     }
 }

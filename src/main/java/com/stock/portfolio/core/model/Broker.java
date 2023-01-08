@@ -1,14 +1,8 @@
 package com.stock.portfolio.core.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class Broker {
-    @Id
     private Long id;
-
-    private String name;
+    private String brokerName;
 
     public Long getId() {
         return id;
@@ -18,11 +12,15 @@ public class Broker {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Broker(String brokerName) {
+        this.brokerName = brokerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getBrokerName() {
+        return brokerName;
+    }
+
+    public void setBrokerName(String brokerName) {
+        this.brokerName = brokerName;
     }
 }

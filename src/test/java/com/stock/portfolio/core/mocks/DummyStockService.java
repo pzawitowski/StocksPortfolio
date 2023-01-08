@@ -16,4 +16,11 @@ public class DummyStockService implements StockService {
     public BigDecimal getPriceByTicket(String ticket) {
         return null;
     }
+
+    @Override
+    public BigDecimal getExchangeRate(String fromCurrency, String toCurrency) {
+        return null;
+    }
+
+
 }

@@ -31,4 +31,11 @@ class AlphaVantageStockServiceTest {
 
         assertThat(price).isNotNull();
     }
+
+    @Test
+    void whenQueryForExchangeShouldReturnPositiveNumber() {
+        BigDecimal exchangeRate = stockService.getExchangeRate("USD", "PLN");
+
+        assertThat(exchangeRate).isPositive();
+    }
 }

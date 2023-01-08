@@ -1,6 +1,7 @@
 package com.stock.portfolio.adapters.alphavantage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stock.portfolio.adapters.alphavantage.dto.ExchangeRateResponse;
 import com.stock.portfolio.adapters.alphavantage.dto.QuoteResponse;
 import com.stock.portfolio.adapters.alphavantage.dto.SearchItemResult;
 import com.stock.portfolio.adapters.alphavantage.dto.SearchResponse;
@@ -14,12 +15,11 @@ import org.springframework.web.util.UriBuilder;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class AlphaVantageStockService implements StockService {
-    private Logger logger = Logger.getLogger(AlphaVantageStockService.class.getName());
+    public static final String FUNCTION = "function";
 
     @Value("${alphavantage.apikey}")
     private String apiKey;
@@ -38,7 +38,7 @@ public class AlphaVantageStockService implements StockService {
     public List<Stock> findStocksByTicket(String ticket) {
         SearchResponse searchResponse = webClient.get()
                 .uri(uriBuilder -> query(uriBuilder)
-                        .queryParam("function", "SYMBOL_SEARCH")
+                        .queryParam(FUNCTION, "SYMBOL_SEARCH")
                         .queryParam("keywords", ticket)
                         .build()
                 )
@@ -75,7 +75,7 @@ public class AlphaVantageStockService implements StockService {
     public BigDecimal getPriceByTicket(String ticket) {
         QuoteResponse quoteResponse = webClient.get()
                 .uri(uriBuilder -> query(uriBuilder)
-                        .queryParam("function", "GLOBAL_QUOTE")
+                        .queryParam(FUNCTION, "GLOBAL_QUOTE")
                         .queryParam("symbol", ticket)
                         .build()
 
@@ -86,4 +86,22 @@ public class AlphaVantageStockService implements StockService {
 
         return quoteResponse.getGlobalQuote().getPrice();
     }
+
+    @Override
+    public BigDecimal getExchangeRate(String fromCurrency, String toCurrency) {
+        ExchangeRateResponse response = webClient.get()
+                .uri(uriBuilder -> query(uriBuilder)
+                        .queryParam(FUNCTION, "CURRENCY_EXCHANGE_RATE")
+                        .queryParam("from_currency", fromCurrency)
+                        .queryParam("to_currency", toCurrency)
+                        .build()
+                ).retrieve()
+                .bodyToMono(ExchangeRateResponse.class)
+                .block();
+
+
+        return response.getExchangeRateData().getExchangeRate();
+    }
+
+
 }

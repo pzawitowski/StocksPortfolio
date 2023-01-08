@@ -1,7 +1,7 @@
 package com.stock.portfolio.core.ports.incoming;
 
-import com.stock.portfolio.core.model.AddStockEntryCommand;
+import com.stock.portfolio.core.model.StockEntry;
 
 public interface AddStockEntry {
-    Long addStockEntry(AddStockEntryCommand stockEntryCommand);
+    Long addStockEntry(StockEntry stockEntryCommand);
 }
