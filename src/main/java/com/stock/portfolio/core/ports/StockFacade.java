@@ -5,13 +5,14 @@ import com.stock.portfolio.core.model.Broker;
 import com.stock.portfolio.core.model.StockEntry;
 import com.stock.portfolio.core.ports.incoming.AddBroker;
 import com.stock.portfolio.core.ports.incoming.AddStockEntry;
+import com.stock.portfolio.core.ports.incoming.DeleteStockEntry;
 import com.stock.portfolio.core.ports.incoming.SearchForStockEntry;
 import com.stock.portfolio.core.ports.outgoing.StockPortfolioDatabase;
 import com.stock.portfolio.core.ports.outgoing.StockService;
 
 import java.util.List;
 
-public class StockFacade implements AddStockEntry, SearchForStockEntry, AddBroker {
+public class StockFacade implements AddStockEntry, SearchForStockEntry, AddBroker, DeleteStockEntry {
 
     private StockPortfolioDatabase portfolioDatabase;
     private StockService stockService;
@@ -49,4 +50,10 @@ public class StockFacade implements AddStockEntry, SearchForStockEntry, AddBroke
     public Long addBroker(Broker addBrokerCommand) {
         return null;
     }
+
+    @Override
+    public void deleteStockEntry(Long stockEntryId) {
+        portfolioDatabase.deleteStockEntry(stockEntryId);
+    }
+
 }

@@ -11,4 +11,5 @@ public interface StockPortfolioDatabase {
     Long addBroker(BrokerEntity broker);
     BrokerEntity getBroker(Long brokerId);
 
+    void deleteStockEntry(Long stockEntryId);
 }

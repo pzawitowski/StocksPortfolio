@@ -2,6 +2,8 @@ package com.stock.portfolio.core.mocks;
 
 import com.stock.portfolio.adapters.repository.entity.BrokerEntity;
 import com.stock.portfolio.adapters.repository.entity.StockEntryEntity;
+import com.stock.portfolio.core.PortfolioException;
+import com.stock.portfolio.core.StockPortfolioError;
 import com.stock.portfolio.core.ports.outgoing.StockPortfolioDatabase;
 
 import java.util.ArrayList;
@@ -55,6 +57,15 @@ public class InMemoryStockDatabase implements StockPortfolioDatabase {
                 .filter(b -> b.equals(brokerId))
                 .findFirst()
                 .orElseThrow();
+    }
+
+    @Override
+    public void deleteStockEntry(Long stockEntryId) {
+        if (stockEntries.contains(stockEntryId)) {
+            stockEntries.remove(stockEntryId);
+        } else {
+          throw new PortfolioException(StockPortfolioError.STOCK_ENTRY_NOT_FOUND, stockEntryId);
+        }
     }
 
     public List<StockEntryEntity> getStockEntries() {

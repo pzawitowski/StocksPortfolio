@@ -72,4 +72,9 @@ public class StockFacadeTest {
         assertNotNull(stockEntryList);
     }
 
+    @Test
+    public void whenDeleteNonExistendShouldThrowException() {
+
+    }
+
 }
